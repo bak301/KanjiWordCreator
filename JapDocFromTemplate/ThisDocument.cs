@@ -6,12 +6,10 @@ namespace JapDocFromTemplate
 {
     public partial class ThisDocument
     {
-        private WordProcessor _processor;
-
         private void Process_Source(string fileName, int rowCount, int pageCount)
         {
-            _processor = new WordProcessor(this, fileName, rowCount);
-            var tablesPopulated = _processor.GenerateData(pageCount);
+            var processor = new WordProcessor(this, fileName);
+            var tablesPopulated = processor.GenerateData(pageCount, rowCount);
 
             Debug.WriteLine($"Number of tables : {tablesPopulated}");
         }
@@ -20,10 +18,10 @@ namespace JapDocFromTemplate
         {
             //Process_Source(@"Source\Source_v4.docx", 5, 51);
             //Process_Source(@"Source\BoThu.docx", 7, 5);
-            Process_Source(@"Source\first300.docx", 5, 12);
+            //Process_Source(@"Source\first300.docx", 5, 12);
             //Process_Source("Source\Source_v4_File2.docx", 5, 38);
 
-            this.Save();
+            Process_Source(@"Source\Database\first-300.source.docx", 5, 12);
         }
 
         private void ThisDocument_Shutdown(object sender, EventArgs e)

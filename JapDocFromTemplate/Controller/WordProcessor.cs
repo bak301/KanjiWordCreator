@@ -7,15 +7,15 @@ namespace JapDocFromTemplate.Controller
         private readonly ThisDocument _doc;
         private readonly TableProcessor _tableProcessor;
 
-        public WordProcessor(ThisDocument doc, string fileName, int rowCount)
+        public WordProcessor(ThisDocument doc, string fileName)
         {
             _doc = doc;
-            _tableProcessor = new TableProcessor(_doc.Application, fileName, rowCount);
+            _tableProcessor = new TableProcessor(_doc.Application, fileName);
         }
 
-        public int GenerateData(int numberOfPages)
+        public int GenerateData(int numberOfPages, int rowCount)
         {
-            var sourceRowIndexStart = 0;
+            var sourceRowIndex = 0;
             for (var i = 0; i < numberOfPages; i++)
             {
                 AddBlankPage();
@@ -24,7 +24,8 @@ namespace JapDocFromTemplate.Controller
                 AddNewTable(_doc.Tables[1]);
 
                 var index = _doc.Tables.Count;
-                _tableProcessor.GenerateTableData(ref sourceRowIndexStart, _doc.Tables[index], _doc.Tables[index - 1]);
+                //_tableProcessor.GenerateTableData(ref sourceRowIndex, _doc.Tables[index], _doc.Tables[index - 1]);
+                sourceRowIndex = _tableProcessor.GenerateTableData(sourceRowIndex, rowCount, _doc.Tables[index], _doc.Tables[index - 1]);
             }
             return _doc.Tables.Count;
         }
@@ -40,7 +41,5 @@ namespace JapDocFromTemplate.Controller
             //_doc.Paragraphs.Last.Range.Paste();
             _doc.Words.Last.Paste();
         }
-
-        // Experimental method
     }
 }
