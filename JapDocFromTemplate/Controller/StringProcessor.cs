@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using JapDocFromTemplate.Model;
@@ -16,6 +17,7 @@ namespace JapDocFromTemplate.Controller
             _docRepo = new DocumentRepo(app, $@"{fileName}");
         }
 
+        // ---------------- Get Dictionary
         public Dictionary<string, string> GetKanjiDictionary(int paragraphIndex)
         {
             var lineDataArray = LineToArray(paragraphIndex);
@@ -25,11 +27,6 @@ namespace JapDocFromTemplate.Controller
                 .Skip(1)
                 .Select(str => CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str))
                 .ToList();
-
-            if (hanVietList.Count != kanjiList.Count)
-                throw new Exception($"Two list don't have the same number of elements :" +
-                                    $"\nHanViet Count = {hanVietList.Count} " +
-                                    $"\nKanji Count = {kanjiList.Count}");
 
             var result = kanjiList
                 .Zip(hanVietList, (k, v) => new {Key = k, Value = v})
@@ -52,7 +49,39 @@ namespace JapDocFromTemplate.Controller
         {
             var line = _docRepo.Source.Paragraphs[index].Range.Text;
             line = line.Remove(line.Length - 1);
+            Debug.WriteLine($"Line data : {line}");
             return line;
         }
+
+        #region EXPERIMENTAL METHOD
+        public IEnumerable<Tuple<char, string, string>> GetKanjiTuple(int paragraphIndex)
+        {
+            var result = new List<Tuple<char, string, string>>();
+            var lineDataArray = LineToArray(paragraphIndex);
+
+            var kanjiList = lineDataArray[0].ToList();
+            var hanVietList = lineDataArray
+                .Skip(1)
+                .Select(str => str.Split('-')[0]);
+            var meaningList = lineDataArray
+                .Skip(1)
+                .Select(str => string.Join(" ", str.Split('-').Skip(1)));
+
+            var e1 = kanjiList.GetEnumerator();
+            var e2 = hanVietList.GetEnumerator();
+            var e3 = meaningList.GetEnumerator();
+
+            while (e1.MoveNext() && e2.MoveNext() && e3.MoveNext())
+            {
+                var kanji = e1.Current;
+                var hanViet = e2.Current;
+                var mean = e3.Current;
+
+                var tuple = Tuple.Create(kanji, hanViet, mean);
+                result.Add(tuple);
+            }
+            return result;
+        }
+        #endregion
     }
 }

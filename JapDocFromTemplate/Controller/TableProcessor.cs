@@ -16,7 +16,7 @@ namespace JapDocFromTemplate.Controller
             _rowCount = rowCount;
         }
 
-        public void GenerateTableData(ref int sourceRowIndex, Table tblHanViet, Table tblHanTu)
+        public void GenerateTableData(ref int sourceRowIndex, Table hanVietTable, Table kanjiTable)
         {
             for (var row = 1; row <= _rowCount; row++)
             {
@@ -24,8 +24,8 @@ namespace JapDocFromTemplate.Controller
                 var kanjiList = lineData.Keys;
                 var hanVietList = lineData.Values;
 
-                GenerateRowData(kanjiList, tblHanTu, row);
-                GenerateRowData(hanVietList, tblHanViet, row);
+                GenerateRowData(kanjiList, kanjiTable, row);
+                GenerateRowData(hanVietList, hanVietTable, row);
             }
 
             sourceRowIndex += _rowCount + 1;
@@ -84,5 +84,23 @@ namespace JapDocFromTemplate.Controller
                 table.Columns[i].Width *= percentage;
             }
         }
+
+        #region EXPERIMENTAL METHOD
+        //Experimental Data Generator
+        public void GenerateTableDataTuple(ref int sourceRowIndex, Table hanVietTable, Table kanjiTable)
+        {
+            for (var row = 1; row <= _rowCount; row++)
+            {
+                var lineData = _dataProcessor.GetKanjiTuple(sourceRowIndex + row);
+                var enumerable = lineData as Tuple<char, string, string>[] ?? lineData.ToArray();
+
+                var kanjiList = enumerable.Select(e => e.Item1.ToString()).ToList();
+                var hanVietList = enumerable.Select(e => e.Item2);
+                var meaningList = enumerable.Select(e => e.Item3);
+
+                GenerateRowData(kanjiList, kanjiTable, row);
+            }
+        }
+        #endregion
     }
 }

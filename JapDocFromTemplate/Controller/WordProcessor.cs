@@ -18,24 +18,15 @@ namespace JapDocFromTemplate.Controller
             var sourceRowIndexStart = 0;
             for (var i = 0; i < numberOfPages; i++)
             {
-                var newestTables = AddPageWithTables();
-                _tableProcessor.GenerateTableData(ref sourceRowIndexStart, newestTables[1], newestTables[0]);
+                AddBlankPage();
+
+                AddNewTable(_doc.Tables[2]);
+                AddNewTable(_doc.Tables[1]);
+
+                var index = _doc.Tables.Count;
+                _tableProcessor.GenerateTableData(ref sourceRowIndexStart, _doc.Tables[index], _doc.Tables[index - 1]);
             }
             return _doc.Tables.Count;
-        }
-
-        private Table[] AddPageWithTables()
-        {
-            AddBlankPage();
-
-            var templateKanjiTable = _doc.Tables[1];
-            var templateHanVietTable = _doc.Tables[2];
-
-            var newTableHanTu = AddNewTable(templateKanjiTable);
-            var newTableHanViet = AddNewTable(templateHanVietTable);
-            var newest = new[] {newTableHanTu, newTableHanViet};
-
-            return newest;
         }
 
         private void AddBlankPage()
@@ -43,12 +34,13 @@ namespace JapDocFromTemplate.Controller
             _doc.Words.Last.InsertBreak();
         }
 
-        private Table AddNewTable(Table table)
+        private void AddNewTable(Table table)
         {
             table.Range.Copy();
+            //_doc.Paragraphs.Last.Range.Paste();
             _doc.Words.Last.Paste();
-            var lastTableIndex = _doc.Tables.Count;
-            return _doc.Tables[lastTableIndex];
         }
+
+        // Experimental method
     }
 }
