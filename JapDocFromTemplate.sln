@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JapDocFromTemplate", "JapDocFromTemplate\JapDocFromTemplate.csproj", "{B39CF627-1536-450F-BC9B-625739BE2537}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordDB", "..\..\..\..\..\Documents\Visual Studio 2015\Projects\WordDB\WordDB\WordDB.csproj", "{ABB10EE5-DBE7-47B8-8162-CE9B046E6498}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordDB", "WordDB\WordDB.csproj", "{ABB10EE5-DBE7-47B8-8162-CE9B046E6498}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
