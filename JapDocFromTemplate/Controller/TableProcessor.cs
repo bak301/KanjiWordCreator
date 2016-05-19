@@ -35,12 +35,13 @@ namespace JapDocFromTemplate.Controller
         //    return sourceRowIndex + rowCount + 1;
         //}
 
-        public int GenerateTableData(int sourceRowIndex, int rowCount, Table hanVietTable, Table kanjiTable)
+        public int GenerateTableData(ref int kanjiCount, int sourceRowIndex, int rowCount, Table hanVietTable, Table kanjiTable)
         {
             for (var row = 1; row <= rowCount; row++)
             {
                 var lineData = _dataProcessor.GetKanjiDictionary(sourceRowIndex + row);
                 var kanjiList = lineData.Keys;
+                kanjiCount += kanjiList.Count;
                 var hanVietList = lineData.Values;
 
                 GenerateRowData(kanjiList, kanjiTable, row, false);

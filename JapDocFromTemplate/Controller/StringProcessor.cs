@@ -49,7 +49,7 @@ namespace JapDocFromTemplate.Controller
         {
             var line = _docRepo.Source.Paragraphs[index].Range.Text;
             line = line.Remove(line.Length - 1);
-            Debug.WriteLine($"Line data : {line}");
+            //Debug.WriteLine($"Line data : {line}");
             return line;
         }
 

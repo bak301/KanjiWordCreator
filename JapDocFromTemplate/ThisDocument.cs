@@ -19,9 +19,9 @@ namespace JapDocFromTemplate
             //Process_Source(@"Source\Source_v4.docx", 5, 51);
             //Process_Source(@"Source\BoThu.docx", 7, 5);
             //Process_Source(@"Source\first300.docx", 5, 12);
-            //Process_Source("Source\Source_v4_File2.docx", 5, 38);
+            Process_Source(@"Source\Source_v4_File2.docx", 5, 38);
 
-            Process_Source(@"Source\Database\first-300.source.docx", 5, 12);
+            //Process_Source(@"Source\Database\first-300.source.docx", 5, 12);
         }
 
         private void ThisDocument_Shutdown(object sender, EventArgs e)
