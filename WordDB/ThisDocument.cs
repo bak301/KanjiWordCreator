@@ -1,4 +1,5 @@
 ﻿using System;
+using WordDB.Controller;
 using Office = Microsoft.Office.Core;
 
 namespace WordDB
@@ -8,8 +9,12 @@ namespace WordDB
         private void ThisDocument_Startup(object sender, EventArgs e)
         {
             const string path = @"C:\Users\vn130\OneDrive\Documents\Word Document\Pre_release\Table-bo-thu.docx";
-            var wordProcessor = new WordProcessor(this, Application.Documents.Open(path), 5);
-            wordProcessor.Start();
+            var wordProcessor = new WordProcessor(this);
+            var document = Application.Documents.Open(path);
+            var tables = document.Tables;
+            //wordProcessor.Start(tables, 7);
+            wordProcessor.WriteJsonToTextFile(tables, 7, "boThu.txt");
+            document.Close();
         }
 
         private void ThisDocument_Shutdown(object sender, EventArgs e)

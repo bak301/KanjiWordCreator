@@ -17,7 +17,6 @@ namespace JapDocFromTemplate.Controller
         public int GenerateData(int numberOfPages, int rowCount)
         {
             var sourceRowIndex = 0;
-            var numberOfKanji = 0;
             for (var i = 0; i < numberOfPages; i++)
             {
                 AddBlankPage();
@@ -27,9 +26,8 @@ namespace JapDocFromTemplate.Controller
 
                 var index = _doc.Tables.Count;
                 //_tableProcessor.GenerateTableData(ref sourceRowIndex, _doc.Tables[index], _doc.Tables[index - 1]);
-                sourceRowIndex = _tableProcessor.GenerateTableData(ref numberOfKanji, sourceRowIndex, rowCount, _doc.Tables[index], _doc.Tables[index - 1]);
+                sourceRowIndex = _tableProcessor.GenerateTableData(sourceRowIndex, rowCount, _doc.Tables[index], _doc.Tables[index - 1]);
             }
-            Debug.WriteLine($"Number of kanji = {numberOfKanji}");
             return _doc.Tables.Count;
         }
 

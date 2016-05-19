@@ -54,6 +54,10 @@
     This section specifies references for the project.
   -->
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -97,10 +101,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="WordProcessor.cs" />
+    <Compile Include="Controller\WordProcessor.cs" />
+    <None Include="packages.config" />
     <None Include="WordDB.docx" />
-    <Compile Include="DictionaryProcessor.cs" />
-    <Compile Include="TableProcessor.cs" />
+    <Compile Include="Controller\TableProcessor.cs" />
+    <Compile Include="Model\KanjiDocument.cs" />
+    <Compile Include="Model\Row.cs" />
+    <Compile Include="Model\Table.cs" />
     <Compile Include="ThisDocument.cs">
       <DependentUpon>WordDB.docx</DependentUpon>
     </Compile>
@@ -131,6 +138,13 @@
     </Compile>
     <None Include="WordDB_TemporaryKey.pfx" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JapDocFromTemplate\JapDocFromTemplate.csproj">
+      <Project>{b39cf627-1536-450f-bc9b-625739be2537}</Project>
+      <Name>JapDocFromTemplate</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

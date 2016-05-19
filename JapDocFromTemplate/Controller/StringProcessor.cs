@@ -54,9 +54,9 @@ namespace JapDocFromTemplate.Controller
         }
 
         #region EXPERIMENTAL METHOD
-        public IEnumerable<Tuple<char, string, string>> GetKanjiTuple(int paragraphIndex)
+        public IEnumerable<KanjiCharacter> GetKanji(int paragraphIndex)
         {
-            var result = new List<Tuple<char, string, string>>();
+            var result = new List<KanjiCharacter>();
             var lineDataArray = LineToArray(paragraphIndex);
 
             var kanjiList = lineDataArray[0].ToList();
@@ -77,8 +77,12 @@ namespace JapDocFromTemplate.Controller
                 var hanViet = e2.Current;
                 var mean = e3.Current;
 
-                var tuple = Tuple.Create(kanji, hanViet, mean);
-                result.Add(tuple);
+                result.Add(new KanjiCharacter
+                {
+                    Kanji = kanji,
+                    HanViet = hanViet,
+                    Meaning = mean
+                });
             }
             return result;
         }

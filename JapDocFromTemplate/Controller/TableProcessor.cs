@@ -20,7 +20,7 @@ namespace JapDocFromTemplate.Controller
         //{
         //    for (var row = 1; row <= rowCount; row++)
         //    {
-        //        var lineData = _dataProcessor.GetKanjiTuple(sourceRowIndex + row);
+        //        var lineData = _dataProcessor.GetKanji(sourceRowIndex + row);
         //        var enumerable = lineData as Tuple<char, string, string>[] ?? lineData.ToArray();
 
         //        var kanjiList = enumerable.Select(e => e.Item1.ToString()).ToList();
@@ -35,13 +35,12 @@ namespace JapDocFromTemplate.Controller
         //    return sourceRowIndex + rowCount + 1;
         //}
 
-        public int GenerateTableData(ref int kanjiCount, int sourceRowIndex, int rowCount, Table hanVietTable, Table kanjiTable)
+        public int GenerateTableData(int sourceRowIndex, int rowCount, Table hanVietTable, Table kanjiTable)
         {
             for (var row = 1; row <= rowCount; row++)
             {
                 var lineData = _dataProcessor.GetKanjiDictionary(sourceRowIndex + row);
                 var kanjiList = lineData.Keys;
-                kanjiCount += kanjiList.Count;
                 var hanVietList = lineData.Values;
 
                 GenerateRowData(kanjiList, kanjiTable, row, false);
