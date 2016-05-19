@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using Microsoft.Office.Interop.Word;
-using Microsoft.Vbe.Interop;
+﻿using Microsoft.Office.Interop.Word;
 
 namespace JapDocFromTemplate.Controller
 {
@@ -13,20 +11,19 @@ namespace JapDocFromTemplate.Controller
             _doc = doc;
         }
 
-        public int Start(string fileName)
+        public int Start(string jsonSource)
         {
-            var database = TableUtility.JsonToDocument(fileName);
+            var database = TableUtility.JsonToDocument(jsonSource);
 
-            var tableCountDiff = database.Tables.Count - _doc.Tables.Count / 2;
+            var tableCountDiff = database.Tables.Count - _doc.Tables.Count/2;
             while (tableCountDiff >= 0)
             {
                 AddBlankPage();
 
                 AddNewTable(_doc.Tables[2]);
                 AddNewTable(_doc.Tables[1]);
-                Debug.WriteLine($"Number of tables : {_doc.Tables.Count}");
 
-                tableCountDiff = database.Tables.Count - _doc.Tables.Count / 2;
+                tableCountDiff = database.Tables.Count - _doc.Tables.Count/2;
             }
 
             TableUtility.GenerateTableDataJson(database, _doc.Tables);
@@ -41,7 +38,6 @@ namespace JapDocFromTemplate.Controller
         private void AddNewTable(Table table)
         {
             table.Range.Copy();
-            //_doc.Paragraphs.Last.Range.Paste();
             _doc.Words.Last.Paste();
         }
     }

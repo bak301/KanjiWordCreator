@@ -1,10 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
-using JapDocFromTemplate.Model;
 using Microsoft.Office.Interop.Word;
 using Newtonsoft.Json;
-using Row = Microsoft.Office.Interop.Word.Row;
 using Jap = JapDocFromTemplate.Model;
 
 namespace JapDocFromTemplate.Controller
@@ -12,15 +10,15 @@ namespace JapDocFromTemplate.Controller
     internal static class TableUtility
     {
         //Experiment
-        public static KanjiDocument JsonToDocument(string path)
+        public static Jap.KanjiDocument JsonToDocument(string path)
         {
-            var data = new Repository(path).JsonSource;
-            var result = JsonConvert.DeserializeObject<KanjiDocument>(data);
+            var data = new Jap.Repository(path).JsonSource;
+            var result = JsonConvert.DeserializeObject<Jap.KanjiDocument>(data);
 
             return result;
         }
 
-        public static void GenerateTableDataJson(KanjiDocument db, Tables tables)
+        public static void GenerateTableDataJson(Jap.KanjiDocument db, Tables tables)
         {
             foreach (var table in db.Tables)
             {
@@ -57,8 +55,6 @@ namespace JapDocFromTemplate.Controller
 
         public static string TablesToJson(Tables tables, int rowCount)
         {
-            Debug.WriteLine($"Tables count : {tables.Count}");
-
             var kanjiDocument = new Jap.KanjiDocument();
             for (var i = 1; i < tables.Count; i += 2)
             {
@@ -86,17 +82,17 @@ namespace JapDocFromTemplate.Controller
         {
             //char[] charToRemove = {'\r', '\u0007'};
             var result = from Cell kanjiCell in kanjiRow.Cells
-                         join Cell hanVietCell in hanVietRow.Cells
-                             on kanjiCell.ColumnIndex equals hanVietCell.ColumnIndex
-                         let hanVietWord = hanVietCell.Range.Paragraphs.First.Range.Text
-                         let kanjiWord = kanjiCell.Range.Text[0]
-                         where !kanjiWord.Equals('\r')
-                         select new Jap.KanjiCharacter
-                         {
-                             Kanji = kanjiWord,
-                             HanViet = Regex.Replace(hanVietWord, "[\r\u0007]", ""),
-                             Meaning = Regex.Replace(hanVietCell.Range.Text, $@"[\r\u0007]|({hanVietWord})", "")
-                         };
+                join Cell hanVietCell in hanVietRow.Cells
+                    on kanjiCell.ColumnIndex equals hanVietCell.ColumnIndex
+                let hanVietWord = hanVietCell.Range.Paragraphs.First.Range.Text
+                let kanjiWord = kanjiCell.Range.Text[0]
+                where !kanjiWord.Equals('\r')
+                select new Jap.KanjiCharacter
+                {
+                    Kanji = kanjiWord,
+                    HanViet = Regex.Replace(hanVietWord, "[\r\u0007]", ""),
+                    Meaning = Regex.Replace(hanVietCell.Range.Text, $@"[\r\u0007]|({hanVietWord})", "")
+                };
 
             return new Jap.Row
             {

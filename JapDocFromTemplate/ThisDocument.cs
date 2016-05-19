@@ -16,7 +16,7 @@ namespace JapDocFromTemplate
         private void ThisDocument_Startup(object sender, EventArgs e)
         {
             Process_Source("300.json");
-            Exporter.WriteJsonToTextFile(this.Tables, 5, "recentlySaved-300.json");
+            Exporter.WriteJsonToTextFile(Tables, 5, "recentlySaved-300.json");
         }
 
         private void ThisDocument_Shutdown(object sender, EventArgs e)

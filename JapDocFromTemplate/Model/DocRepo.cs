@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using Microsoft.Office.Interop.Word;
 
 namespace JapDocFromTemplate.Model
 {
