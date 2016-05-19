@@ -101,10 +101,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controller\WordProcessor.cs" />
     <None Include="packages.config" />
     <None Include="WordDB.docx" />
-    <Compile Include="Controller\TableProcessor.cs" />
     <Compile Include="ThisDocument.cs">
       <DependentUpon>WordDB.docx</DependentUpon>
     </Compile>
@@ -141,7 +139,9 @@
       <Name>JapDocFromTemplate</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Controller\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

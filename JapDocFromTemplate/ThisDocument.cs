@@ -6,22 +6,17 @@ namespace JapDocFromTemplate
 {
     public partial class ThisDocument
     {
-        private void Process_Source(string fileName, int rowCount, int pageCount)
+        private void Process_Source(string fileName)
         {
-            var processor = new WordProcessor(this, fileName);
-            var tablesPopulated = processor.GenerateData(pageCount, rowCount);
-
-            Debug.WriteLine($"Number of tables : {tablesPopulated}");
+            var processor = new WordProcessor(this);
+            var tablesPopulated = processor.Start(fileName);
+            Debug.WriteLine($"Total number of tables : {tablesPopulated}");
         }
 
         private void ThisDocument_Startup(object sender, EventArgs e)
         {
-            //Process_Source(@"Source\Source_v4.docx", 5, 51);
-            //Process_Source(@"Source\BoThu.docx", 7, 5);
-            //Process_Source(@"Source\first300.docx", 5, 12);
-            Process_Source(@"Source\Source_v4_File2.docx", 5, 38);
-
-            //Process_Source(@"Source\Database\first-300.source.docx", 5, 12);
+            Process_Source("300.json");
+            Exporter.WriteJsonToTextFile(this.Tables, 5, "recentlySaved-300.json");
         }
 
         private void ThisDocument_Shutdown(object sender, EventArgs e)

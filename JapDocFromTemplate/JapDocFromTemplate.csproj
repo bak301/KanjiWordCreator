@@ -57,6 +57,10 @@
     This section specifies references for the project.
   -->
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -101,8 +105,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Japanese.docx" />
-    <Compile Include="Controller\StringProcessor.cs" />
-    <Compile Include="Controller\TableProcessor.cs" />
+    <Compile Include="Controller\Exporter.cs" />
+    <Compile Include="Controller\TableUtility.cs" />
     <Compile Include="Controller\WordProcessor.cs" />
     <Compile Include="Model\DocRepo.cs" />
     <Compile Include="Model\KanjiCharacter.cs" />
@@ -113,6 +117,7 @@
       <DependentUpon>Japanese.docx</DependentUpon>
     </Compile>
     <None Include="JapDocFromTemplate_TemporaryKey.pfx" />
+    <None Include="packages.config" />
     <None Include="ThisDocument.Designer.xml">
       <DependentUpon>ThisDocument.cs</DependentUpon>
     </None>

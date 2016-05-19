@@ -1,14 +1,16 @@
-﻿using Microsoft.Office.Interop.Word;
+﻿using System.IO;
+using Microsoft.Office.Interop.Word;
 
 namespace JapDocFromTemplate.Model
 {
-    internal class DocumentRepo
+    internal class Repository
     {
-        public DocumentRepo(_Application app, string filePath)
+        public Repository(string jsonPath)
         {
-            Source = app.Documents.Open($@"C:\Users\vn130\OneDrive\Documents\Word Document\{filePath}");
+            JsonSource =
+                File.ReadAllText($@"C:\Users\vn130\OneDrive\Documents\Word Document\src\Database\{jsonPath}");
         }
 
-        public Document Source { get; private set; }
+        public string JsonSource { get; set; }
     }
 }

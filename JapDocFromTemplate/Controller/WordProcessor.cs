@@ -1,33 +1,35 @@
-﻿using Microsoft.Office.Interop.Word;
+﻿using System.Diagnostics;
+using Microsoft.Office.Interop.Word;
+using Microsoft.Vbe.Interop;
 
 namespace JapDocFromTemplate.Controller
 {
     internal class WordProcessor
     {
         private readonly ThisDocument _doc;
-        private readonly TableProcessor _tableProcessor;
 
-        public WordProcessor(ThisDocument doc, string fileName)
+        public WordProcessor(ThisDocument doc)
         {
             _doc = doc;
-            _tableProcessor = new TableProcessor(_doc.Application, fileName);
         }
 
-        public int GenerateData(int numberOfPages, int rowCount)
+        public int Start(string fileName)
         {
-            var sourceRowIndex = 0;
-            for (var i = 0; i < numberOfPages; i++)
+            var database = TableUtility.JsonToDocument(fileName);
+
+            var tableCountDiff = database.Tables.Count - _doc.Tables.Count / 2;
+            while (tableCountDiff >= 0)
             {
                 AddBlankPage();
 
                 AddNewTable(_doc.Tables[2]);
                 AddNewTable(_doc.Tables[1]);
+                Debug.WriteLine($"Number of tables : {_doc.Tables.Count}");
 
-                var index = _doc.Tables.Count;
-                //_tableProcessor.GenerateTableData(ref sourceRowIndex, _doc.Tables[index], _doc.Tables[index - 1]);
-                sourceRowIndex = _tableProcessor.GenerateTableData(sourceRowIndex, rowCount, _doc.Tables[index],
-                    _doc.Tables[index - 1]);
+                tableCountDiff = database.Tables.Count - _doc.Tables.Count / 2;
             }
+
+            TableUtility.GenerateTableDataJson(database, _doc.Tables);
             return _doc.Tables.Count;
         }
 
