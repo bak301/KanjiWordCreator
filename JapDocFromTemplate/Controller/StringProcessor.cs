@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using JapDocFromTemplate.Model;
@@ -54,6 +53,7 @@ namespace JapDocFromTemplate.Controller
         }
 
         #region EXPERIMENTAL METHOD
+
         public IEnumerable<KanjiCharacter> GetKanji(int paragraphIndex)
         {
             var result = new List<KanjiCharacter>();
@@ -86,6 +86,7 @@ namespace JapDocFromTemplate.Controller
             }
             return result;
         }
+
         #endregion
     }
 }

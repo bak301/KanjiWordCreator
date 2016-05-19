@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using JapDocFromTemplate.Model;
 using Microsoft.Office.Interop.Word;
 using Newtonsoft.Json;
-using Row = Microsoft.Office.Interop.Word.Row;
+using Jap = JapDocFromTemplate.Model;
 
 namespace WordDB.Controller
 {
@@ -17,7 +15,7 @@ namespace WordDB.Controller
         {
             Debug.WriteLine($"Tables count : {tables.Count}");
 
-            var kanjiDocument = new Model.KanjiDocument();
+            var kanjiDocument = new Jap.KanjiDocument();
             for (var i = 1; i < tables.Count; i += 2)
             {
                 var kanjiTable = tables[i];
@@ -26,7 +24,7 @@ namespace WordDB.Controller
                 if (kanjiTable.Rows.Count < rowCount && hanVietTable.Rows.Count < rowCount)
                     rowCount = kanjiTable.Rows.Count;
 
-                var kanjiCharacterTable = new Model.Table();
+                var kanjiCharacterTable = new Jap.Table();
                 for (var j = 1; j <= rowCount; j++)
                 {
                     var kanjiRow = kanjiTable.Rows[j];
@@ -40,27 +38,30 @@ namespace WordDB.Controller
             return JsonConvert.SerializeObject(kanjiDocument, Formatting.Indented);
         }
 
-        private Model.Row ParseRow(Row kanjiRow, Row hanVietRow)
+        private Jap.Row ParseRow(Row kanjiRow, Row hanVietRow)
         {
             //char[] charToRemove = {'\r', '\u0007'};
             var result = from Cell kanjiCell in kanjiRow.Cells
-                         join Cell hanVietCell in hanVietRow.Cells 
-                         on kanjiCell.ColumnIndex equals hanVietCell.ColumnIndex
-                         let hanVietWord = hanVietCell.Range.Paragraphs.First.Range.Text
-                         select new KanjiCharacter
-                         {
-                             Kanji = kanjiCell.Range.Text[0],
-                             HanViet = Regex.Replace(hanVietWord, "[\r\u0007]", ""),
-                             Meaning = Regex.Replace(hanVietCell.Range.Text, $@"[\r\u0007]|({hanVietWord})","")
-                         };
+                join Cell hanVietCell in hanVietRow.Cells
+                    on kanjiCell.ColumnIndex equals hanVietCell.ColumnIndex
+                let hanVietWord = hanVietCell.Range.Paragraphs.First.Range.Text
+                let kanjiWord = kanjiCell.Range.Text[0]
+                where !kanjiWord.Equals('\r')
+                select new Jap.KanjiCharacter
+                {
+                    Kanji = kanjiWord,
+                    HanViet = Regex.Replace(hanVietWord, "[\r\u0007]", ""),
+                    Meaning = Regex.Replace(hanVietCell.Range.Text, $@"[\r\u0007]|({hanVietWord})", "")
+                };
 
-            return new Model.Row
+            return new Jap.Row
             {
                 KanjiCharacters = result
             };
         }
 
         #region Old Method
+
         public IEnumerable<string> ReadAllTable(Tables tables, int rowCount)
         {
             var result = new List<string>();
@@ -108,17 +109,6 @@ namespace WordDB.Controller
             return result;
         }
 
-        public Dictionary<string, string> GetRowDictionary(List<string> kanji, List<string> hanViet)
-        {
-            if (kanji.Count != hanViet.Count)
-                throw new Exception($"Two list don't have the same number of elements :" +
-                                    $"\nHanViet Count = {hanViet.Count} " +
-                                    $"\nKanji Count = {kanji.Count}");
-
-            return kanji.Zip(hanViet, (k, v) => new {Key = k, Value = v})
-                .ToDictionary(x => x.Key.ToString(), x => x.Value);
-        }
-
         public string MergeLine(IEnumerable<string> kanji, IEnumerable<string> hanViet)
         {
             var stringBuilder = new StringBuilder();
@@ -136,8 +126,7 @@ namespace WordDB.Controller
             var result = stringBuilder.ToString().Replace("\r", "");
             return result;
         }
-#endregion
 
-
+        #endregion
     }
 }

@@ -106,6 +106,9 @@
     <Compile Include="Controller\WordProcessor.cs" />
     <Compile Include="Model\DocRepo.cs" />
     <Compile Include="Model\KanjiCharacter.cs" />
+    <Compile Include="Model\KanjiDocument.cs" />
+    <Compile Include="Model\Row.cs" />
+    <Compile Include="Model\Table.cs" />
     <Compile Include="ThisDocument.cs">
       <DependentUpon>Japanese.docx</DependentUpon>
     </Compile>

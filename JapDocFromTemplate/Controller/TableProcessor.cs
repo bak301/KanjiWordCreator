@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Microsoft.Office.Interop.Word;
 
@@ -14,7 +13,7 @@ namespace JapDocFromTemplate.Controller
         {
             _dataProcessor = new StringProcessor(app, fileName);
         }
-        
+
         //Experimental
         //public int GenerateTableDataTuple(int sourceRowIndex, int rowCount, Table hanVietTable, Table kanjiTable)
         //{
@@ -50,7 +49,7 @@ namespace JapDocFromTemplate.Controller
             return sourceRowIndex + rowCount + 1;
         }
 
-        private void GenerateRowData(ICollection<string> collection, Table table, int rowIndex,bool isHanViet)
+        private void GenerateRowData(ICollection<string> collection, Table table, int rowIndex, bool isHanViet)
         {
             if (collection.Count > table.Columns.Count)
             {

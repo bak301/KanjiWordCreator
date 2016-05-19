@@ -105,9 +105,6 @@
     <None Include="packages.config" />
     <None Include="WordDB.docx" />
     <Compile Include="Controller\TableProcessor.cs" />
-    <Compile Include="Model\KanjiDocument.cs" />
-    <Compile Include="Model\Row.cs" />
-    <Compile Include="Model\Table.cs" />
     <Compile Include="ThisDocument.cs">
       <DependentUpon>WordDB.docx</DependentUpon>
     </Compile>

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Microsoft.Office.Interop.Word;
+﻿using Microsoft.Office.Interop.Word;
 
 namespace JapDocFromTemplate.Controller
 {
@@ -26,7 +25,8 @@ namespace JapDocFromTemplate.Controller
 
                 var index = _doc.Tables.Count;
                 //_tableProcessor.GenerateTableData(ref sourceRowIndex, _doc.Tables[index], _doc.Tables[index - 1]);
-                sourceRowIndex = _tableProcessor.GenerateTableData(sourceRowIndex, rowCount, _doc.Tables[index], _doc.Tables[index - 1]);
+                sourceRowIndex = _tableProcessor.GenerateTableData(sourceRowIndex, rowCount, _doc.Tables[index],
+                    _doc.Tables[index - 1]);
             }
             return _doc.Tables.Count;
         }

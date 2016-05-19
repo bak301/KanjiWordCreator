@@ -8,12 +8,15 @@ namespace WordDB
     {
         private void ThisDocument_Startup(object sender, EventArgs e)
         {
-            const string path = @"C:\Users\vn130\OneDrive\Documents\Word Document\Pre_release\Table-bo-thu.docx";
+            const string path = @"C:\Users\vn130\OneDrive\Documents\Word Document\dist\Tap3.docx";
             var wordProcessor = new WordProcessor(this);
             var document = Application.Documents.Open(path);
             var tables = document.Tables;
+
             //wordProcessor.Start(tables, 7);
-            wordProcessor.WriteJsonToTextFile(tables, 7, "boThu.txt");
+            //wordProcessor.WriteJsonToTextFile(tables, 7, "boThu.json");
+            //wordProcessor.WriteJsonToTextFile(tables, 5, "300.json");
+            wordProcessor.WriteJsonToTextFile(tables, 5, "kanji_part2.json");
             document.Close();
         }
 

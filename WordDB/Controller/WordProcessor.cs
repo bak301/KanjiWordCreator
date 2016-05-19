@@ -29,7 +29,7 @@ namespace WordDB.Controller
 
         public void WriteJsonToTextFile(Tables tables, int rowCount, string name)
         {
-            var data =_tableProcessor.TablesToJson(tables, rowCount);
+            var data = _tableProcessor.TablesToJson(tables, rowCount);
             File.WriteAllText($@"C:\Users\vn130\OneDrive\Documents\Word Document\src\Database\{name}", data);
         }
 
